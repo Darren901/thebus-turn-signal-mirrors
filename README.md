@@ -1,53 +1,58 @@
 # TurnSignalMirrors — The Bus
 
-打方向燈時才顯示該側的 HUD 後視鏡（Tab 編輯模式裡加的那幾個視窗）。
-Shows each HUD mirror window (the ones added in Tab/HUD edit mode) only while the indicator on that side is active.
+**English** | [繁體中文](README.zh-TW.md)
 
-## 需求 / Requirements
+A UE4SS Lua mod for **The Bus** that shows each HUD side-mirror window (the ones you add in Tab / HUD edit mode) only while the turn signal on that side is active.
 
-- The Bus（測試版本 1.2.0.100996，UE 5.6）
-- [UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental-latest) experimental 版（正式版 v3.0.1 不支援 UE 5.6）
+## Requirements
 
-## 安裝 / Install
+- The Bus (tested on 1.2.0.100996, Unreal Engine 5.6)
+- [UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental-latest) **experimental** build (the stable v3.0.1 release does not support UE 5.6)
 
-1. 把 UE4SS experimental zip 解壓到 `The Bus\TheBus\Binaries\Win64\`（會多出 `dwmapi.dll` 和 `ue4ss\`）。
-2. 把本 repo 的 `TurnSignalMirrors` 資料夾放進 `Win64\ue4ss\Mods\`。
-3. 在 `ue4ss\Mods\mods.txt` 的 `Keybinds : 1` 之前加一行：`TurnSignalMirrors : 1`
-4. 進遊戲上車，按 Tab 把左/右 HUD 後視鏡加上去。
+## Installation
 
-移除：刪掉 `ue4ss\Mods\TurnSignalMirrors`；不再用 UE4SS 的話再刪 `dwmapi.dll` 和 `ue4ss\`。
+1. Extract the UE4SS experimental zip into `The Bus\TheBus\Binaries\Win64\` (this adds `dwmapi.dll` and a `ue4ss\` folder).
+2. Copy the `TurnSignalMirrors` folder from this repo into `Win64\ue4ss\Mods\`.
+3. In `ue4ss\Mods\mods.txt`, add the line `TurnSignalMirrors : 1` above `Keybinds : 1`.
+4. Start the game, get in a bus, press Tab and add the left / right HUD mirrors.
 
-## 行為 / Behavior
+**Uninstall:** delete `ue4ss\Mods\TurnSignalMirrors`. To remove UE4SS entirely, also delete `dwmapi.dll` and the `ue4ss\` folder.
 
-| 狀態 | 左鏡 | 右鏡（含輪邊鏡） |
+## Behavior
+
+| State | Left mirror | Right mirror (incl. wheel mirror) |
 |---|---|---|
-| 方向燈關 | 隱藏 | 隱藏 |
-| 左燈 | 顯示 | 隱藏 |
-| 右燈 | 隱藏 | 顯示 |
-| Tab 編輯模式 | 顯示 | 顯示 |
+| Indicator off | Hidden | Hidden |
+| Left indicator | Shown | Hidden |
+| Right indicator | Hidden | Shown |
+| Tab / HUD edit mode | Shown | Shown |
 
-方向燈關掉後會多留 `HoldSeconds` 秒才收起。
+After the indicator turns off, the mirror stays visible for `HoldSeconds` before hiding.
 
-## 熱鍵 / Hotkeys
+## Hotkeys
 
-- `Ctrl+F11` — 開/關本 mod（關閉時鏡子恢復常駐）
-- `Ctrl+F12` — 把目前狀態寫入 `ue4ss\UE4SS.log`
+- `Ctrl+F11` — toggle the mod on/off (when off, mirrors are always visible)
+- `Ctrl+F12` — write the current state to `ue4ss\UE4SS.log`
 
-## 設定 / Config
+## Configuration
 
-`Scripts/main.lua` 最上方：
+At the top of `Scripts/main.lua`:
 
-| 參數 | 預設 | 說明 |
+| Option | Default | Description |
 |---|---|---|
-| `HoldSeconds` | `1.5` | 方向燈關掉後延遲收起的秒數 |
-| `ShowBothOnHazard` | `false` | 雙閃時兩邊都顯示 |
-| `IncludeRightWheel` | `true` | 右側輪邊鏡跟著右燈 |
-| `PollMs` | `100` | 輪詢間隔（毫秒） |
+| `HoldSeconds` | `1.5` | Seconds to keep the mirror visible after the indicator turns off |
+| `ShowBothOnHazard` | `false` | Show both mirrors while hazard lights are on |
+| `IncludeRightWheel` | `true` | The right wheel mirror follows the right indicator |
+| `PollMs` | `100` | Polling interval in milliseconds |
 
-## 已知限制 / Notes
+## Known limitations
 
-- 只在單機、Berlin、Scania Citywide 實測；其他車只要鏡子元件叫 `Mirror_Left_*` / `Mirror_Right_*` 應該都能用。
-- 多人連線未測試。
-- 鏡子只是設為透明，遊戲仍會渲染，不會提升 FPS。
-- 依賴遊戲內部類別名稱（`UMG_MirrorHUD_C`、`BP_IndicatorModule_C`），遊戲更新後可能失效。
-- Steam「驗證檔案完整性」會清掉 UE4SS，需重裝。
+- Only tested in single-player, Berlin map, Scania Citywide. Other buses should work as long as their mirror components are named `Mirror_Left_*` / `Mirror_Right_*`.
+- Multiplayer is untested.
+- Mirrors are made transparent, not disabled — the game still renders them, so there is no FPS gain.
+- Relies on internal class names (`UMG_MirrorHUD_C`, `BP_IndicatorModule_C`); a game update may break it.
+- Steam's "Verify integrity of game files" removes UE4SS; reinstall it afterwards.
+
+## License
+
+[MIT](LICENSE)
