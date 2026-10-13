@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/banner.svg" alt="TurnSignalMirrors banner" width="100%"></p>
+
 # TurnSignalMirrors — The Bus
 
 **English** | [繁體中文](README.zh-TW.md)
